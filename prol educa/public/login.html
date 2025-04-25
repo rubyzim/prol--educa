@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Proleduca</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Proleduca</h1>
+      <nav>
+        <ul>
+          <li><a href="/">Início</a></li>
+          <li><a href="/cadastro">Cadastro</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="form-container">
+      <h2>Entrar</h2>
+      <form id="formLogin">
+        <input type="email" id="emailLogin" placeholder="E-mail" required>
+        <input type="password" id="senhaLogin" placeholder="Senha" required>
+        <button type="submit">Entrar</button>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Proleduca. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('formLogin').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById('emailLogin').value;
+      const senha = document.getElementById('senhaLogin').value;
+
+      const usuario = { email, senha };
+
+      try {
+        const resposta = await fetch('http://localhost:8080/usuarios/logar', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(usuario),
+        });
+
+        if (resposta.ok) {
+          alert('Login realizado com sucesso!');
+          window.location.href = '/';
+        } else {
+          alert('Credenciais inválidas.');
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Erro ao conectar com o servidor.');
+      }
+    });
+  </script>
+</body>
+</html>
